@@ -72,3 +72,29 @@
 - **Evaluation ground truth:** The annotation guide, labeled sequence, and scorer are planned but not yet implemented. The pilot dataset will support limited claims; broader evaluation depends on additional independent sequences.
 - **Integration choices:** The first reminder delivery channel, OS/calendar integration, and model remain open decisions. Follow-up must work from validated task state and user-enabled settings.
 - **Submission packaging:** A final combined PDF and project name are still needed. The deck passed structural checks, but its visual verification remains incomplete because the preview export failed.
+
+# Week 4
+
+## What got done
+
+- Compared the [submitted Milestone 1 proposal](milestone_1/milestone1_proposal.pdf), [pitch deck](milestone_1/pitch_deck.pdf), and current repository against the [Milestone 2 requirements](<milestone_2/Milestone 2.pdf>) for the AI Engineering track.
+- Identified the remaining graded deliverables: assembled data and a Data Card (40 points), plus a runnable evaluation harness, qualitative rubric, baselines, measured results, and initial error analysis (60 points).
+- Confirmed that the repository currently provides a CLI scaffold and smoke tests. Meeting extraction, labeled evaluation fixtures, scoring, and baseline results remain unimplemented.
+- Identified inconsistencies between the Milestone 1 artifacts: the submitted proposal specifies a native iOS client and PostgreSQL/pgvector, while the Markdown proposal and pitch deck describe a CLI/local service with SQLite. The submitted proposal also mentions SQLite in its budget. These choices need to be reconciled in Milestone 2.
+- Outlined an implementation order centered on timestamped transcripts, labeled outputs, baseline predictions, and reproducible scoring. The full application is not required to complete the Milestone 2 evaluation deliverables.
+
+## Planned next steps
+
+- **Guadalupe (proposed):** Assemble and annotate the first three-meeting development sequence, with a second team member reviewing labels. Cover completion, changed deadlines, unaccepted suggestions, ambiguous references, and tasks that remain open when not mentioned again. Draft the Data Card with provenance, permissions/licensing, access, splits, and limitations.
+- **Will (proposed):** Define the transcript/task output contract and implement independent-meeting extraction and an applicable off-the-shelf open-source reference baseline. Preserve source IDs and record model versions, prompts, and run settings.
+- **Bryan (proposed):** Build an evaluation runner that loads fixtures and saved predictions and reports task precision/recall, owner accuracy, duplicates, unsupported completions, and citation validity. Test the scorer with correct and deliberately incorrect outputs, and document commands and example results in the README.
+- **Team:** Define a qualitative rubric with concrete examples, run the baselines on shared inputs, and produce a results table and initial failure analysis. Separate deterministic offline scoring tests from live model runs.
+- **Team:** Complete the mandatory Milestone 2 TA check-in with a Data Card summary, harness instructions, baseline results, and blockers. Prepare the single submission PDF with the track declaration, repository link, weekly progress, contributions, and an owner-assigned plan for the next milestone; confirm the Canvas deadline.
+
+## Current blockers and decisions needed
+
+- **Scope alignment:** Confirm the authoritative application architecture and reminder scope, then document changes from Milestone 1 consistently across artifacts.
+- **Data readiness:** Actual evaluation inputs and labels still need to be assembled. Sponsor pipeline/data permissions remain unconfirmed; synthetic transcripts can support initial development. Split by whole sequence or project to avoid related meetings leaking across sets, and keep the first development sequence out of held-out evaluation.
+- **Baseline selection:** Choose an applicable open-source reference model or system in addition to the simple baseline. A proprietary-model-only comparison does not cover the open-source reference requirement.
+- **Evaluation evidence:** Proposed quality targets are not measured results. The harness, qualitative rubric, baseline runs, and error analysis must be completed before reporting performance.
+- **Coordination:** Confirm proposed task ownership, dataset coverage and split strategy, and the Milestone 2 TA check-in schedule.
