@@ -5,15 +5,15 @@
 **Project name:** [TODO]
 **Team:** Will Liu, Guadalupe Cantera, Bryan Yang
 **Repository:** https://github.com/BryanDYang/ai-capstone
-**Canvas deadline:** sept 28, 2026
-**Last updated:** sept 16, 2026
+**Canvas deadline:** September 28, 2026 (recorded by the team; confirm submission time/timezone in Canvas)
+**Last updated:** September 16, 2026
 **Status:** Collaborative draft; Milestone 1 TA/professor feedback pending.
 
 ## How to use this draft
 
 Copy this document into Google Docs for team editing, then bring the revised text back into this file. Replace each `[TODO]` with an answer or an explicit limitation. Keep proposed plans separate from completed work and measured results. Owners below are proposed until the team confirms them.
 
-The assignment's questions are guidance, not a requirement to answer every prompt individually. This template organizes the required AI Engineering deliverables and adds project-specific questions to make the answers concrete. Remove drafting instructions before exporting the final report.
+The assignment's questions are guidance, not a requirement to answer every prompt individually. This draft organizes the required AI Engineering deliverables and adds project-specific questions to make the answers concrete. Remove drafting instructions before exporting the final report.
 
 **Submission:** One PDF containing the report, with a repository URL. The repository must contain the milestone artifacts and README instructions for running the evaluation. A mandatory TA check-in is also required. The assignment does not separately request a new pitch deck, demo video, Google Doc submission, or a finished application.
 
@@ -25,11 +25,13 @@ The assignment's questions are guidance, not a requirement to answer every promp
 
 **What does this milestone actually implement and evaluate?**
 
-[TODO: Describe the runnable slice, its inputs and outputs, and what is deferred. A transcript-to-predictions-to-scores workflow is the proposed starting point.]
+The proposed Milestone 2 implementation imports timestamped transcripts, extracts owned commitments with source references, and compares saved predictions with human-reviewed labels. We plan to compare independent-meeting extraction with an applicable open-source reference on the same development inputs. The initial application feature and evaluation will share the extraction contract.
+
+Currently, the repository contains an installable Python CLI scaffold and offline smoke tests. Extraction, fixtures, scoring, and baseline results are not implemented. The full mobile UI, audio pipeline, calendar integration, reminders, and complete cross-meeting reconciliation remain later application work; this checkpoint does not establish their quality.
 
 **What changed after Milestone 1, and why?**
 
-[TODO: Record confirmed changes, or state that feedback is still pending.]
+Milestone 1 TA/professor feedback is pending. No feedback-driven scope change is confirmed. The immediate proposal is to implement and evaluate a transcript-first slice while retaining the broader follow-through objective.
 
 **Architecture decision to reconcile:** The submitted proposal specifies an iOS client and PostgreSQL/pgvector; the Markdown proposal and pitch deck describe a CLI/local service with SQLite. The submitted proposal also mentions SQLite in its budget. Confirm the intended final architecture and distinguish it from the evaluation-only tooling needed now.
 
@@ -56,7 +58,7 @@ We are awaiting TA and professor input on the Milestone 1 submission. The follow
 
 **What inputs have we actually assembled, and how can a reviewer access them?**
 
-[TODO: Identify synthetic transcripts, consenting team recordings, and/or specific public dataset subsets actually used. Candidate sources alone do not establish data readiness.]
+No labeled evaluation dataset has been established in the application repository yet. The proposed starting point is one synthetic three-meeting development sequence, followed by additional independent cases and sequences to cover ordinary and difficult examples. AMI and QMSum were identified in Milestone 1 as candidate supplementary sources; neither is claimed here as acquired, licensed for our use, or annotated for our task. Sponsor recordings and pipeline reuse remain subject to access and permission confirmation.
 
 | Source/subset | Actual size: projects, sequences, meetings | Format and annotation coverage | Access method or repository path |
 | ------------- | ------------------------------------------ | ------------------------------ | -------------------------------- |
@@ -76,9 +78,9 @@ We are awaiting TA and professor input on the Milestone 1 submission. The follow
 
 ### Annotation design and quality
 
-**What is labeled?** [TODO: Commitments, owners, deadlines, source segments, suggestions, decisions, links between mentions, and expected task state after each meeting, as applicable.]
+**What is labeled?** Proposed labels include commitment descriptions, owners, supported deadlines, source segment IDs, and suggestions kept separate from accepted commitments. Sequence annotations will also record links to earlier tasks and expected state after each meeting. Decisions and historical Q&A are outside the first extraction scorer unless explicitly added.
 
-**Labeling rules:** [TODO: Define acceptance of suggestions, explicit completion versus partial progress, ambiguous ownership/references, and tasks not mentioned again.]
+**Labeling rules (proposed):** A suggestion becomes a commitment only with evidence of acceptance. Unknown owners and missing deadlines remain unknown rather than inferred. Explicit supported completion can change a task to done; partial progress, negation, and silence cannot. Ambiguous references require review rather than an invented task link. Every accepted record or update must identify its supporting transcript segment.
 
 **Review and disagreement resolution:** [TODO: Who labeled, who reviewed, how disagreements were resolved, and any unresolved cases.]
 
@@ -88,7 +90,7 @@ We are awaiting TA and professor input on the Milestone 1 submission. The follow
 
 **How are the splits constructed, and why?**
 
-[TODO: Split by whole sequence/project to prevent leakage across related meetings. If no model training is performed, say so and explain the role of development data for prompts/rules. Do not report tuned-on examples as held-out results.]
+We do not plan to train or fine-tune model parameters for this checkpoint. Development inputs will support prompt/rule iteration and initial baseline evaluation. Related meetings will stay together within a sequence/project split to avoid leakage. Separate validation and held-out test sequences are planned, with exact counts and IDs pending data assembly. Milestone 2 results will be labeled as development results; the first sequence will not later be presented as held-out evidence.
 
 | Split                | Sequence/project IDs and counts | Purpose | Has it influenced prompts or rules? |
 | -------------------- | ------------------------------- | ------- | ----------------------------------- |
@@ -97,11 +99,11 @@ We are awaiting TA and professor input on the Milestone 1 submission. The follow
 | Test                 | [TODO]                          | [TODO]  | [TODO]                              |
 
 **Split manifest/version and any seed:** [TODO]
-**If a split is not yet available:** [TODO: State what is missing and how that limits current results.]
+**Current split status:** Inputs, labels, and split manifests are not yet assembled. We cannot report sample counts, held-out performance, or generalization claims.
 
 ### Known limitations
 
-[TODO: Address sample size, synthetic versus natural conversation, domain mismatch, speaker/language coverage, missing labels, annotation noise, and scenario coverage. Explain which claims the dataset cannot support.]
+The initial synthetic sequence will test selected behaviors but cannot establish performance on natural research meetings. Small samples and author-designed scenarios may miss conversational variation and difficult negative examples. Label disagreements will require review. Transcript-only evaluation will not measure transcription or diarization quality. Public meeting corpora may differ from advisor/student conversations and may lack our required task-state labels. Language, speaker, and domain coverage must be documented once inputs are assembled; no broad demographic or deployment claims are supported at this stage.
 
 ## 3. Evaluation harness
 
@@ -111,20 +113,20 @@ We are awaiting TA and professor input on the Milestone 1 submission. The follow
 
 **What does the custom suite measure?**
 
-[TODO: Describe the path from timestamped inputs to baseline predictions to scored outputs. State which components actually run and which remain deferred.]
+The planned harness loads labeled timestamped transcripts, runs interchangeable extraction baselines, saves their predictions and run settings, scores predictions against labels, and writes aggregate plus per-example results. Scoring saved predictions will run offline. Live inference will be a separate step. Only the repository scaffold currently runs; all evaluation stages remain to be implemented. The sequence scenarios below describe desired coverage, not completed functionality.
 
 | Scenario                     | Expected behavior                                      | Fixture ID | Implemented/scored? |
 | ---------------------------- | ------------------------------------------------------ | ---------- | ------------------- |
-| Explicit completion          | Update the correct existing task to done with evidence | [TODO]     | [TODO]              |
-| Deadline change              | Update the supported date on the correct task          | [TODO]     | [TODO]              |
-| Unaccepted suggestion        | Keep separate from an owned commitment                 | [TODO]     | [TODO]              |
-| Ambiguous reference          | Flag uncertainty rather than invent a match            | [TODO]     | [TODO]              |
-| Task not mentioned again     | Preserve the previous state                            | [TODO]     | [TODO]              |
-| Partial progress or negation | Avoid unsupported completion                           | [TODO]     | [TODO]              |
+| Explicit completion          | Update the correct existing task to done with evidence | [TODO]     | Not implemented     |
+| Deadline change              | Update the supported date on the correct task          | [TODO]     | Not implemented     |
+| Unaccepted suggestion        | Keep separate from an owned commitment                 | [TODO]     | Not implemented     |
+| Ambiguous reference          | Flag uncertainty rather than invent a match            | [TODO]     | Not implemented     |
+| Task not mentioned again     | Preserve the previous state                            | [TODO]     | Not implemented     |
+| Partial progress or negation | Avoid unsupported completion                           | [TODO]     | Not implemented     |
 
 ### Metrics and scoring rules
 
-**Why do the chosen metrics reflect success?** [TODO]
+**Why do the chosen metrics reflect success?** Users need commitments to be found without invented tasks, assigned to the right people, and linked to supporting evidence. Precision/recall measures extraction coverage and correctness; owner accuracy measures attribution; duplicate counts expose repeated tasks; citation checks measure traceability. Unsupported completion and state/link metrics will apply when update predictions are implemented. A model that produces no updates cannot be credited with successful reconciliation solely because it has no false completions.
 
 The rows below are proposed metrics. Confirm which are implemented, define their denominators and matching rules, and explicitly mark deferred metrics.
 
@@ -143,7 +145,7 @@ The rows below are proposed metrics. Confirm which are implemented, define their
 
 ### Reproducibility and README instructions
 
-**Environment and dependencies:** [TODO]
+**Environment and dependencies:** The scaffold uses Python 3.12, uv with locked dependencies, Pytest, and Ruff. Model/runtime dependencies will be recorded after baseline selection. See the repository README for existing setup instructions.
 **Dataset/prediction versions and code revision:** [TODO]
 **Model versions, prompt versions, settings, and seeds where supported:** [TODO]
 **Credentials or hardware needed for live runs:** [TODO]
@@ -151,7 +153,7 @@ The rows below are proposed metrics. Confirm which are implemented, define their
 Replace these placeholders with tested commands and also place the instructions in the repository README:
 
 ```text
-[TODO: setup command]
+uv sync --locked --extra dev
 [TODO: command to generate baseline predictions]
 [TODO: command to score saved predictions without API calls]
 [TODO: command to run offline scorer tests]
@@ -169,19 +171,19 @@ Replace these placeholders with tested commands and also place the instructions 
 
 **Proposed lead:** Guadalupe; reviewers: [TODO]
 
-**Which outputs are assessed, how are they sampled, and who scores them?** [TODO]
+**Proposed protocol:** Two team members independently review a shared sample of extracted commitments and, once available, proposed updates. Include ordinary cases and each error category, record individual scores, and reconcile disagreements with evidence. Reviewer names, sample size, and actual scores remain pending.
 
-Use application-specific anchors rather than only generic numeric scores. The dimensions below are suggestions to finalize. Define intermediate scores if using a 1-5 scale.
+The following rubric is a proposed starting point for team review, not a completed grading exercise. Score 2 falls between anchors 1 and 3; score 4 is usable with minor corrections between anchors 3 and 5. Record critical errors separately so an average cannot hide an unsupported completion.
 
 | Dimension                                | 1: poor | 3: needs substantial correction | 5: high quality |
 | ---------------------------------------- | ------- | ------------------------------- | --------------- |
-| Faithfulness/evidence support            | [TODO]  | [TODO]                          | [TODO]          |
-| Owner and speaker attribution            | [TODO]  | [TODO]                          | [TODO]          |
-| Coverage of relevant commitments/updates | [TODO]  | [TODO]                          | [TODO]          |
-| Ambiguity and suggestion handling        | [TODO]  | [TODO]                          | [TODO]          |
-| Clarity and usefulness                   | [TODO]  | [TODO]                          | [TODO]          |
+| Faithfulness/evidence support | Invents commitments or unsupported changes | Mixes supported content with unsupported details requiring correction | Every substantive field or change is supported by the cited evidence |
+| Owner and speaker attribution | Assigns work to the wrong person without evidence | Some attributions require correction or uncertainty is unclear | All owners are supported; genuinely unknown owners remain unresolved |
+| Coverage of relevant commitments/updates | Misses most relevant commitments or updates | Captures the main items but misses material details or items | Captures all relevant labeled items without duplicates |
+| Ambiguity and suggestion handling | Treats suggestions or ambiguous speech as definite commitments/updates | Handles clear cases but mishandles some uncertainty | Separates suggestions and routes genuinely ambiguous cases for review |
+| Clarity and usefulness | Output is unusable or misleading | Understandable but needs substantive editing | Tasks are concise, actionable, and easy to verify against evidence |
 
-**Concrete input/output examples and grading rationale:** [TODO: Include a good output and at least one failure.]
+**Illustrative example, not an evaluated result:** At segment `s1`, Will says, "I will rerun the baseline by Friday." At `s2`, the advisor says, "You could try mixed precision." A good output records Will's rerun commitment with `s1` as evidence and keeps mixed precision as an unaccepted suggestion. Assigning mixed precision to Will as a confirmed task is an unsupported commitment. Converting Friday to a calendar date requires meeting-date/timezone context. Actual baseline examples will be added after runs.
 
 **Review disagreements and any LLM-judge role:** [TODO: State whether grading is human, automated, or assisted. An LLM judge is not explicitly required by the assignment.]
 
@@ -191,9 +193,9 @@ Use application-specific anchors rather than only generic numeric scores. The di
 
 ### Simple baseline
 
-**Method and rationale:** [TODO: For example, independent-meeting extraction. Describe the actual implemented method.]
+**Method and rationale (proposed, not implemented):** Extract commitments from each meeting independently using a fixed prompt and the agreed output schema. This tests what can be recovered without persistent cross-meeting memory and provides the primary comparison described in Milestone 1.
 **Model/rules, version, prompts, settings, and code path:** [TODO]
-**Information available to this baseline:** [TODO: State whether it sees prior meetings or task state.]
+**Information available to this baseline (proposed):** The current timestamped transcript and confirmed speaker mapping only, with no prior meeting transcripts, stored task state, or gold labels.
 
 ### Off-the-shelf open-source reference baseline
 
@@ -260,11 +262,11 @@ Do not mark the check-in complete until it occurs. These notes are a collaborati
 
 ## 8. Weekly progress, blockers, and next steps
 
-**Progress made:** [TODO: Summarize completed work, with artifact links where useful.]
+**Progress made:** Reviewed the Milestone 2 assignment and Phase 2 teaching materials against the Milestone 1 artifacts and current code. Identified missing evaluation deliverables and architecture inconsistencies. Prepared this collaborative submission draft and a proposed task breakdown. The existing CLI scaffold and smoke tests provide a starting repository, not an implemented evaluation harness.
 
-**Top blockers or risks:** [TODO: Include pending Milestone 1 feedback, unresolved data permissions, and unconfirmed choices as applicable.]
+**Top blockers or risks:** Milestone 1 feedback is pending. Team ownership, final architecture, baseline selection, data size/splits, and sponsor permissions remain unconfirmed. Labeled data and a common output contract are the immediate dependencies. A single synthetic sequence will not support broad performance claims.
 
-**Planned next steps:** [TODO]
+**Planned next steps:** Agree on one transcript and its expected output, finalize the shared schema, prepare reviewed development labels, implement baselines and scoring, and run the first comparison. Then expand coverage, inspect failures, complete the TA check-in, and replace pending report sections with evidence. See [Milestone 2 task plan](task_plan.md).
 
 The [weekly journal](../weekly_journal.md) contains the ongoing record. Include the relevant progress in this report so the PDF is self-contained.
 
@@ -284,7 +286,7 @@ Record actual contributions separately from proposed ownership. This section is 
 
 ## 10. Final submission checklist
 
-- [ ] AI Engineering track and team declared.
+- [x] AI Engineering track and team declared.
 - [ ] Actual dataset/inputs assembled with a complete Data Card.
 - [ ] Provenance, licensing/permissions, splits, and limitations documented.
 - [ ] Evaluation harness runs using documented README commands and includes example output.
