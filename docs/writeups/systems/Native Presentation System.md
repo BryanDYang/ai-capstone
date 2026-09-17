@@ -180,7 +180,7 @@ erDiagram
         text title "Task description"
         date due_date "Scheduled deadline, (Index Col 3)"
         varchar_32 review_status "pending, approved, dismissed"
-        varchar_32 lifecycle_status "open, in_progress, blocked, done, dropped (Index Col 4)"
+        varchar_32 lifecycle_status "open, done, dropped (Index Col 4)"
         varchar_32 category "commitment vs advisor_suggestion"
         uuid evidence_transcript_id FK "References transcripts(id)"
         text evidence_quote "Verbatim transcript quote"

@@ -1,8 +1,6 @@
 **1. [[Native Presentation System]] (SwiftUI)** Drives the 3-axis tab layout: the Projects/Meetings dashboard (summaries, decisions, transcripts, attendee storylines), the date-based Tasks calendar with 3-state execution (Open, Done, Dropped), and the conversational Chat view.
 
-
-
-**2. [[Audio Playback & Deep-Linking Engine ]](AVFoundation)** Enables sub-second playhead seeking (`AVPlayer.seek(to: CMTime)`) mapped directly to transcript offsets, decision evidence, task proof citations, and chat source references without streaming full raw audio over the network repeatedly.
+**2. [[Audio Playback & Deep-Linking Engine ]**](AVFoundation) Enables sub-second playhead seeking (`AVPlayer.seek(to: CMTime)`) mapped directly to transcript offsets, decision evidence, task proof citations, and chat source references without streaming full raw audio over the network repeatedly.
 
 **3. [[Mobile OS Integration Service]] (Apple EventKit)** Natively bridges device capabilities by extracting attendee metadata from calendar events and exporting approved tasks and deadlines directly to Apple Reminders and Calendar, eliminating the need for a dedicated push notification backend.
 
@@ -10,7 +8,7 @@
 
 **5. [[Ingestion & Sequential Worker Service ]](FastAPI / Uvicorn)** Serves as the central API gateway enforcing project-level access guards. It orchestrates background processing via an asynchronous worker queue, handles FFmpeg audio normalization, and executes safe, recoverable file trashing via `send2trash`.
 
-**6. [[Acoustic Ingestion & Diarization Pipeline]] (MLX-Whisper + pyannote.audio)** _Leverages the PREBUILT foundation._ Executes on Apple Silicon unified memory to generate word-level timestamped transcripts, separate speech turns, and resolve persistent x-vector voice embeddings against attendee records.
+**6. [[Acoustic Ingestion & Diarization Pipeline]] (MLX-Whisper + pyannote.audio)** *Leverages the PREBUILT foundation.* Executes on Apple Silicon unified memory to generate word-level timestamped transcripts, separate speech turns, and resolve persistent x-vector voice embeddings against attendee records.
 
 **7. [[Structured Extraction & Task Reconciliation Engine]] (Claude 3.5 + Pydantic + Sentence-Transformers)** Extracts typed takeaways, consensus decisions, and attendee storylines (what they want, see, discuss). It uses dense embedding cosine distance and an LLM arbiter to reconcile shorthand and deduplicate tasks against active records.
 
@@ -18,21 +16,15 @@
 
 **9. [[Evaluation & Benchmarking Harness]] (Ragas + jiwer + pyannote.metrics)** An offline testing suite benchmarking Word Error Rate, Diarization Error Rate, task linkage F1, and citation faithfulness against ground-truth fixtures to ensure model reliability
 
-
-
 ## File Tree
+
 ```
 labsync/
 ├── .github/
 │   └── workflows/
 │       ├── ci-backend.yml              # Linting, type checks (mypy), and unit tests
 │       └── ci-ios.yml                  # Xcode build and SwiftLint checks
-├── docker/
-│   ├── Dockerfile.backend              # Apple Silicon-compatible local container
-│   └── postgres/
-│       └── init-pgvector.sql           # CREATE EXTENSION IF NOT EXISTS vector;
-├── docker-compose.yml                  # PostgreSQL 16 + pgvector container orchestration
-├── Makefile                            # Common commands (make db-up, make migrate, make test)
+├── Makefile                            # Native Homebrew and local virtual environment & common commands.
 ├── pyproject.toml                      # Poetry/UV dependency configuration for Python 3.11+
 │
 ├── src/labsync/                        # CORE BACKEND (Engineers 2 & 3)
@@ -145,3 +137,4 @@ labsync/
         ├── test_der_pyannote.py        # Diarization Error Rate on pyannote 3.1
         └── test_ragas_eval.py          # Ragas citation faithfulness and refusal metrics
 ```
+
