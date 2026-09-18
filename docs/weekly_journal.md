@@ -82,6 +82,13 @@
 - Confirmed that the repository currently provides a CLI scaffold and smoke tests. Meeting extraction, labeled evaluation fixtures, scoring, and baseline results remain unimplemented.
 - Identified inconsistencies between the Milestone 1 artifacts: the submitted proposal specifies a native iOS client and PostgreSQL/pgvector, while the Markdown proposal and pitch deck describe a CLI/local service with SQLite. The submitted proposal also mentions SQLite in its budget. These choices need to be reconciled in Milestone 2.
 - Outlined an implementation order centered on timestamped transcripts, labeled outputs, baseline predictions, and reproducible scoring. The full application is not required to complete the Milestone 2 evaluation deliverables.
+- Created a meeting-assistant UI mockup covering the meetings list, meeting details, transcript playback, tasks, review actions, and chat experience.
+- Completed writeups for the project story, technical stack, end-to-end workflow, and system boundaries. The system writeups cover native presentation, audio playback and deep linking, mobile OS integration, remote access, sequential ingestion, acoustic diarization, structured extraction and task reconciliation, unified persistence and hybrid search, and evaluation.
+- Added a staged implementation workflow that starts with data contracts and persistence, continues through the audio and extraction pipeline, queue and API services, evaluation, and client integration. Added role ownership to divide the implementation across the team.
+- Clarified from the project recap that the ingestion pipeline accepts MP4 or MP3 audio regardless of whether it comes from Zoom, a screen recorder, or a phone voice memo. Our in-person lab meetings do not create a Zoom recording queue.
+- Researched public meeting datasets on Hugging Face and Kaggle. The AMI Meeting Corpus is a strong first prototype dataset because it is well annotated and includes dialogue acts, summaries, and decision-point labels for the TS3005a-d series. The ICSI Meeting Corpus is a realistic follow-up option for recurring research meetings; its Bmr, Bed, and Bro series provide real meetings and transcripts, but commitments and decisions would need to be labeled manually.
+- Identified AMI TS3005a-d as the preferred initial sanity-check sequence and ICSI Bmr001-Bmr003, or the equivalent Bed sequence, as a possible development sequence for recurring-meeting evaluation. The pre-processed AMI diarization dataset may also help validate the pipeline while the system's own diarization is being developed.
+- Confirmed that recordings of our own project meetings would best represent the final target setting, but written consent is required from teammates and the professor before recording or using them.
 
 ## Planned next steps
 
@@ -98,3 +105,4 @@
 - **Baseline selection:** Choose an applicable open-source reference model or system in addition to the simple baseline. A proprietary-model-only comparison does not cover the open-source reference requirement.
 - **Evaluation evidence:** Proposed quality targets are not measured results. The harness, qualitative rubric, baseline runs, and error analysis must be completed before reporting performance.
 - **Coordination:** Confirm proposed task ownership, dataset coverage and split strategy, and the Milestone 2 TA check-in schedule.
+- **Recording consent:** Obtain written consent from all teammates and the professor before recording project meetings or using those recordings for development or evaluation.
